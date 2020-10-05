@@ -58,12 +58,31 @@
       </div>
       <div class="col-8">
         <div class="row">
-          <h2 id="nameofcity"></h2>
-          <p id="humidity"></p>
-          <p id="windspeed"></p>
-          <p id="uvindex"></p>
+          <div class="col-12">
+            <h2 id="nameofcity"></h2>
+          </div>
+          <div class="col-12">
+            <p id="temperature"></p>
+          </div>
+          <div class="col-12">
+            <p id="humidity"></p>
+          </div>
+          <div class="col-12">
+            <p id="windspeed"></p>
+          </div>
+          <div class="col-12">
+            <p id="uvindex"></p>
+          </div>
+          
         </div>
-        <div id="5day"></div>
+        <div id="5day" class="row">
+          <h1>5-day Forecast:</h1>
+          <div class="col rounded" id="Forecast0"></div>
+          <div class="col rounded" id="Forecast8"></div>
+          <div class="col rounded" id="Forecast16"></div>
+          <div class="col rounded" id="Forecast24"></div>
+          <div class="col rounded" id="Forecast32"></div>
+        </div>
       </div>
     </div>
     <script src="logic.js"></script>
