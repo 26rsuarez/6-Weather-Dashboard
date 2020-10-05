@@ -37,36 +37,43 @@ function renderButtons() {
 
 //function for showing the weather information on the page
 function showWeather(cityname) {
+  // call the api for the single day weather
   var api = "515798d11075abbf042d6d0ba0edef46";
   var queryUrl = "https://api.openweathermap.org/data/2.5/weather?q="+cityname+"&appid="+api;
-  var lat;
-  var lon;
   $.ajax({
       url: queryUrl,
       type: "Get"
     }).then(function(response){
       console.log(response);
+      // this variables will be displayed on the html
       var temperature = response.main.temp;
       var humidity = response.main.humidity;
       var windSpeed = response.wind.speed;
-      lat = response.coord.lat;
-      lon = response.coord.lon;
-      // var uvIndex = response.data[0].value;
+      // lat and lon are neeeded to call for uv index
+      var lat = response.coord.lat;
+      var lon = response.coord.lon;
+      
       $("#nameofcity").text(cityname);
-      $("#temperature").text(temperature);
-      $("#humidity").text(humidity);
-      $("#windspeed").text(windSpeed);
-      // $("#uvindex").text(uvIndex);
+      $("#temperature").text("Temperature: "+temperature);
+      $("#humidity").text("Humidity: "+humidity+"%");
+      $("#windspeed").text("Wind Speed: "+windSpeed+" MPH");
+      
+      //this will give the uv index of the location through the api
+      uvIndexURL = "http://api.openweathermap.org/data/2.5/uvi?lat="+lat+"&lon="+lon+"&appid="+api;
+      $.ajax({
+        url: uvIndexURL,
+        type: "Get"
+      }).then(function(response){
+        console.log(response);
+        //the uv index will be displayed on the page
+        var uvIndex = response.value;
+        $("#uvindex").text("UV Index: "+uvIndex);
+      })
     })
-  url = "http://api.openweathermap.org/data/2.5/uvi?lat="+lat+"&lon="+lon+"&appid="+api;
-  $.ajax({
-    url: uvIndexURL,
-    type: "Get"
-  }).then(function(response){
-    console.log(response);
-  })
+  
 }
 
+// this api will display the 5day forecast
 function fiveDayForecast(cityname) {
     var api = "515798d11075abbf042d6d0ba0edef46";
     var queryUrl = "https://api.openweathermap.org/data/2.5/forecast?q="+cityname+"&appid="+api;
