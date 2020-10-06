@@ -2,3 +2,10 @@ nav {
     text-align: center;
     color: white;
 }
+#search-bar {
+    padding-left: 25px;
+}
+
+.fiveday {
+    margin-right: 20px;
+}
