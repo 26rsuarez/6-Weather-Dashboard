@@ -77,6 +77,7 @@ function showWeather(cityname) {
       var year = dateNeeded.getFullYear();
       
       //the varibles are shown on the page except for uvindex
+      $(".maintemp").attr("class", "rounded border border-dark");
       $("#nameofcity").text(cityname+" ("+month+"/"+day+"/"+year+")");
       $("#nameofcity").append(iconTag);
       $("#temperature").text("Temperature: "+temperatureF.toFixed(1)+"°F");
