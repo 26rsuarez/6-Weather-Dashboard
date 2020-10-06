@@ -10,7 +10,7 @@ The webpage is styled using bootstrap. The openweathermap also has icons that ar
 
 Users can save multiple cities in the local storage and as a button on the page. The city's info will be displayed again when they click on the respective button. Beware closing the browser may delete that local storage.
 
-The application is deployed at https://26rsuarez.github.io/Weather-Dashboard/
+The application is deployed at https://26rsuarez.github.io/6-Weather-Dashboard/
 
 ![weatherdasboard](./Assets/weatherdashboard.PNG)
 
