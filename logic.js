@@ -96,9 +96,31 @@ function fiveDayForecast(cityname) {
         type: "Get"
       }).then(function(response){
         console.log(response);
-        // for (var i=0; i<40; i+=8) {
+        $("#5daytitle").text("5-Day Forecast:");
+        
 
-        // }
+        // the object returned has 40 arrays with the day changing every 8 arrays
+        for (var i=0; i<40; i+=8) {
+          //the date is in the object but it needs to be parsed
+          var defaultDate = response.list[i].dt_txt;
+          var dateNeeded = defaultDate.split(" ");
+          var dateParsed = dateNeeded[0].split("-");
+          var year = dateParsed[0];
+          var month = dateParsed[1];
+          var day = dateParsed[2];
+
+          //other variables needed from the object
+          var temperatureK = response.list[i].main.temp;
+          var temperatureF = (temperatureK-273.15)*9/5+32;
+          var hum = response.list[i].main.humidity;
+
+          // then the important properties are added to the html
+          var divId = "#Forecast" + i;
+          var date = $("<p>").text(+month+"/"+day+"/"+year);
+          var temp = $("<p>").text("Temp: "+temperatureF.toFixed(1)+"°F");
+          var humidity = $("<p>").text("Humidity: "+hum+"%");
+          $(divId).append(date,temp,humidity);
+        }
       })
 }
 
