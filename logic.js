@@ -47,16 +47,17 @@ function showWeather(cityname) {
       console.log(response);
       // this variables will be displayed on the html
       var temperature = response.main.temp;
+      var temperatureF = (temperature-273.15)*9/5+32;
       var humidity = response.main.humidity;
-      var windSpeed = response.wind.speed;
+      var windSpeed = response.wind.speed*2.2;
       // lat and lon are neeeded to call for uv index
       var lat = response.coord.lat;
       var lon = response.coord.lon;
       
       $("#nameofcity").text(cityname);
-      $("#temperature").text("Temperature: "+temperature);
+      $("#temperature").text("Temperature: "+temperatureF.toFixed(1)+"°F");
       $("#humidity").text("Humidity: "+humidity+"%");
-      $("#windspeed").text("Wind Speed: "+windSpeed+" MPH");
+      $("#windspeed").text("Wind Speed: "+windSpeed.toFixed(1)+" MPH");
       
       //this will give the uv index of the location through the api
       uvIndexURL = "http://api.openweathermap.org/data/2.5/uvi?lat="+lat+"&lon="+lon+"&appid="+api;
@@ -67,7 +68,20 @@ function showWeather(cityname) {
         console.log(response);
         //the uv index will be displayed on the page
         var uvIndex = response.value;
-        $("#uvindex").text("UV Index: "+uvIndex);
+        $("#uvindex").text("UV index: ");
+        //the uv will be color coded green, yellow, or red depending on how severe it is
+        if (uvIndex<3) {
+          var uvValue = $("<span>").attr("class", "badge badge-success").text(uvIndex);
+          $("#uvindex").append(uvValue);
+        }
+        else if (uvIndex>=3 || uvIndex<6) {
+          var uvValue = $("<span>").attr("class", "badge badge-danger").text(uvIndex);
+          $("#uvindex").append(uvValue);
+        }
+        else {
+          var uvValue = $("<span>").attr("class", "badge badge-warning").text(uvIndex);
+          $("#uvindex").append(uvValue);
+        }
       })
     })
   
