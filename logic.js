@@ -23,10 +23,14 @@ function renderButtons() {
 
     // clearing city button before creating new ones
     $("#buttons-area").empty();
+
+    //if the array is stored in the local storage the old buttons will be created
+    //this will also call the showweather and fiveday forecast funtion on the last item
     if (localStorage.getItem("savedArray")!==null) {
       var oldArray = localStorage.getItem("savedArray")
       cityArr = JSON.parse(oldArray);
-      console.log(cityArr);
+      showWeather(cityArr[cityArr.length-1]);
+      fiveDayForecast(cityArr[cityArr.length-1]);
     }
     // Looping through the array of movies
     for (var i = 0; i < cityArr.length; i++) {
@@ -56,7 +60,7 @@ function showWeather(cityname) {
       type: "Get"
     }).then(function(response){
       console.log(response);
-      // this variables will be displayed on the html
+      // these variables will be displayed on the html
       var temperature = response.main.temp;
       var temperatureF = (temperature-273.15)*9/5+32;
       var humidity = response.main.humidity;
@@ -66,11 +70,13 @@ function showWeather(cityname) {
       var lat = response.coord.lat;
       var lon = response.coord.lon;
 
+      //the date is retrived from javascript and parsed
       var dateNeeded = new Date();
       var day = dateNeeded.getDate();
-      var month = dateNeeded.getMonth();
+      var month = dateNeeded.getMonth()+1;
       var year = dateNeeded.getFullYear();
       
+      //the varibles are shown on the page except for uvindex
       $("#nameofcity").text(cityname+" ("+month+"/"+day+"/"+year+")");
       $("#nameofcity").append(iconTag);
       $("#temperature").text("Temperature: "+temperatureF.toFixed(1)+"°F");
@@ -106,7 +112,7 @@ function showWeather(cityname) {
   
 }
 
-// this api will display the 5day forecast
+// this api call gives the 5day forecast
 function fiveDayForecast(cityname) {
     var api = "515798d11075abbf042d6d0ba0edef46";
     var queryUrl = "https://api.openweathermap.org/data/2.5/forecast?q="+cityname+"&appid="+api;
@@ -135,7 +141,7 @@ function fiveDayForecast(cityname) {
           var temperatureF = (temperatureK-273.15)*9/5+32;
           var hum = response.list[i].main.humidity;
 
-          // then the important properties are added to the html
+          // then the important variables are added to the html
           var date = $("<p>").text(month+"/"+day+"/"+year);
           //the icon can be obtained from the object and the website
           var icon = $("<img>").attr("src","https://openweathermap.org/img/wn/" +response.list[i].weather[0].icon+ "@2x.png");
