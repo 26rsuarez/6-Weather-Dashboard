@@ -2,6 +2,10 @@ nav {
     text-align: center;
     color: white;
 }
+
+.maintemp {
+    margin-right: 5px;
+}
 #search-bar {
     padding-left: 25px;
 }
