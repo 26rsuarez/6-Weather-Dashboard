@@ -5,7 +5,13 @@ var cityArr = [];
 $("#searchbtn").on("click", function(event){
     event.preventDefault();
     var city = $("#searchtext").val().trim();
+    
     cityArr.push(city);
+    
+    $("#searchtext").empty();
+    //the array will also be saved in local storage
+    var savedArray = localStorage.setItem("savedArray", JSON.stringify(cityArr));
+
     renderButtons();
     showWeather(city);
     fiveDayForecast(city);
@@ -17,7 +23,11 @@ function renderButtons() {
 
     // clearing city button before creating new ones
     $("#buttons-area").empty();
-
+    if (localStorage.getItem("savedArray")!==null) {
+      var oldArray = localStorage.getItem("savedArray")
+      cityArr = JSON.parse(oldArray);
+      console.log(cityArr);
+    }
     // Looping through the array of movies
     for (var i = 0; i < cityArr.length; i++) {
 
@@ -30,6 +40,9 @@ function renderButtons() {
       a.text(cityArr[i]);
       // Adding the button to the buttons-area div
       $("#buttons-area").append(a);
+
+      
+      
     }
   }
 
@@ -58,7 +71,7 @@ function showWeather(cityname) {
       var month = dateNeeded.getMonth();
       var year = dateNeeded.getFullYear();
       
-      $("#nameofcity").text(cityname+"("+month+"/"+day+"/"+year+")");
+      $("#nameofcity").text(cityname+" ("+month+"/"+day+"/"+year+")");
       $("#nameofcity").append(iconTag);
       $("#temperature").text("Temperature: "+temperatureF.toFixed(1)+"°F");
       $("#humidity").text("Humidity: "+humidity+"%");
@@ -123,7 +136,7 @@ function fiveDayForecast(cityname) {
           var hum = response.list[i].main.humidity;
 
           // then the important properties are added to the html
-          var date = $("<p>").text(+month+"/"+day+"/"+year);
+          var date = $("<p>").text(month+"/"+day+"/"+year);
           //the icon can be obtained from the object and the website
           var icon = $("<img>").attr("src","https://openweathermap.org/img/wn/" +response.list[i].weather[0].icon+ "@2x.png");
 
@@ -140,3 +153,6 @@ $(document).on("click", ".city-btn", function() {
     showWeather(cityname);
     fiveDayForecast(cityname);
 });
+
+//call the render buttons in case local storage was not empty
+renderButtons();
